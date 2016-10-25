@@ -1,5 +1,4 @@
 <div>
-    <p>My Chart</p>
-    <button (click)="change()">Change</button>
+    <label><input type="checkbox" (change)="toggleState()"/>Issues is:open</label>
     <chart [type]="type" [data]="data" [options]="options"></chart>
 </div>

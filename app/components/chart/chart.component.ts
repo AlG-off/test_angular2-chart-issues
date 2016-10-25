@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { ChartService } from '../../shared/chart.service';
 
-
 @Component({
     selector: 'my-chart',
     templateUrl: './app/components/chart/chart.component.html',
@@ -10,19 +9,20 @@ import { ChartService } from '../../shared/chart.service';
 
 export class ChartComponent implements OnInit{
     type: string;
-    data: Object;
+    data: any;
     options: Object;
     chart: any[];
+    onlyOpenIssue: boolean;
 
     constructor (private chartService:ChartService) {
         this.chart = [];
-        this.type = 'line';
+        this.type = 'bar';
         this.data = {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
+            labels: ["test"],
             datasets: [
                 {
-                    label: "Rails/Issues is:open",
-                    data: [65, 59, 80, 81, 56, 55, 40]
+                    label: "test",
+                    data: [0]
                 }
             ]
         };
@@ -30,23 +30,42 @@ export class ChartComponent implements OnInit{
             responsive: true,
             maintainAspectRatio: false
         };
+        this.onlyOpenIssue = false;
     }
 
+    private getData(stateIssue:string){
+        this.chartService.getLabelsList()
+            .subscribe(labelList =>{this.chartService
+                    .getCountListIssuesOnLabels(stateIssue, labelList)
+                    .subscribe(count =>{
+                        let countList = count.map(count => count['total_count']);
+                        this.update(stateIssue, labelList, countList)
+                    })
+            })
+    }
+
+    private update(stateIssue, labelList, countList){
+        console.log(this.data)
+        this.data = {
+            labels: labelList,
+            datasets:[{
+                label:`Rails/Issues is:${stateIssue}`,
+                data: countList
+            }]
+        }
+    }
 
     ngOnInit() {
-        this.chartService
-            .getDataChart()
-            .then(chart => this.chart = chart)
+        this.getData('all');
     }
-    change() {
-        this.data = {
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
-            datasets: [
-                {
-                    label: "My First dataset",
-                    data: [-65, 159, 180, 801, 5, 5, 47]
-                }
-            ]
+
+    toggleState() {
+        if(!this.onlyOpenIssue){
+            this.getData('open')
+
+        }else{
+            this.getData('all')
         }
+        this.onlyOpenIssue = !this.onlyOpenIssue;
     }
 }
