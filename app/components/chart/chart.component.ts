@@ -45,7 +45,6 @@ export class ChartComponent implements OnInit{
     }
 
     private update(stateIssue, labelList, countList){
-        console.log(this.data)
         this.data = {
             labels: labelList,
             datasets:[{
