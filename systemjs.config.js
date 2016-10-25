@@ -19,9 +19,10 @@
             '@angular/platform-browser': 'npm:@angular/platform-browser/bundles/platform-browser.umd.js',
             '@angular/platform-browser-dynamic': 'npm:@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js',
             '@angular/http': 'npm:@angular/http/bundles/http.umd.js',
-            'ng2-charts': 'node_modules/ng2-charts',
             // other libraries
-            'rxjs':                      'npm:rxjs'
+            'rxjs':                      'npm:rxjs',
+            'angular2-chartjs': 'npm:angular2-chartjs',
+            'chart.js': 'npm:chart.js/dist/Chart.bundle.js'
         },
         // packages tells the System loader how to load when no filename and/or no extension
         packages: {
@@ -32,7 +33,8 @@
             rxjs: {
                 defaultExtension: 'js'
             },
-            'ng2-charts': {
+            'angular2-chartjs': {
+                main: './dist/index.js',
                 defaultExtension: 'js'
             }
         }
